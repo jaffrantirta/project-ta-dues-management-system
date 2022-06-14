@@ -38,11 +38,15 @@
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
+            <a class="dropdown-item d-flex align-items-center" href="#" onclick="logout()">
               <i class="fa fa-right-from-bracket"></i>
               <span>Keluar</span>
             </a>
           </li>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+          </form>
 
         </ul><!-- End Profile Dropdown Items -->
       </li><!-- End Profile Nav -->
@@ -51,3 +55,18 @@
   </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
+<script>
+  function logout(){
+      Swal.fire({
+          title: 'Yakin logout ?',
+          showCancelButton: true,
+          confirmButtonColor: '#ff6600',
+          confirmButtonText: 'Logout',
+          dangerMode: true,
+      }).then( function(result){
+          if(result.isConfirmed){
+              event.preventDefault();document.getElementById('logout-form').submit();
+          }
+      })
+  }
+</script>

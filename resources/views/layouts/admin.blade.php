@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>{{ $title ?? '' }} - {{ env('APP_NAME') }}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -29,12 +29,34 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/admin') }}/css/style.css" rel="stylesheet">
+
+  {{-- sweet alert 2 --}}
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
   @include('layouts.master.header')
   @include('layouts.master.sidebar')
-  @yield('content')
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>{{ $title ?? '' }}</h1>
+    </div><!-- End Page Title -->
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                <div class="alert alert-danger alert-dismissible fade show rounded-5" role="alert">
+                    <strong>{{ $error }}</strong>
+                </div>
+                @endforeach
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show rounded-5" role="alert">
+                    <strong>{{ session('success') }}</strong>
+                </div>
+            @endif
+      @yield('content')
+    </main><!-- End #main -->
   @include('layouts.master.footer')
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Carbon\Carbon;
+use Hash;
 
 class User extends Authenticatable
 {
@@ -22,6 +24,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'id_number',
+        'date_of_birth',
+    ];
+
+    protected $appends = [
+        'join',
+        'birth',
     ];
 
     /**
@@ -42,4 +52,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getJoinAttribute()
+    {
+        return Carbon::create($this->created_at)->isoFormat('Y');
+    }
+
+    public function getBirthAttribute()
+    {
+        return Carbon::create($this->date_of_birth)->isoFormat('D MMM Y');
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucwords($value);
+    }
 }
