@@ -50,8 +50,9 @@ class UserController extends Controller
             'id_number' => 'required|numeric', //harus diisi dan harus angka
             'name' => 'required|max:255', //harus diisi dan max 255 karakter
             'email' => 'required|unique:users', //harus diisi dan tidak boleh sama dengan user yang lain
-            'phone' => 'required|unique:users', //harus diisi dan tidak boleh sama dengan user yang lain
+            'phone' => 'required|unique:users|max:13', //harus diisi dan tidak boleh sama dengan user yang lain
             'date_of_birth' => 'required|before:today', //harus diisi dan tanggal tidak boleh lebih dari hari ini
+            'sex' => 'required', //harus diisi
         ]);
 
         $user = User::create(array_merge($request->all(), ['password'=>Hash::make('1234567890')])); //simpan ke db data yang diiputkan
@@ -68,7 +69,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $data['title'] = $this->title;
+        $data['user'] = $user; // menyimpan data user di variabel array user
+        return view('user.show')->with($data); // tampilkan view user yang dipilih
     }
 
     /**
@@ -91,7 +94,24 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+         // data di cek apakah sudah sesuai kriteria
+         $validated = $request->validate([
+            'name' => 'required|max:255', //harus diisi dan max 255 karakter
+            'email' => 'required|unique:users,email,'.$user->id, //harus diisi dan tidak boleh sama dengan user yang lain
+            'phone' => 'required|unique:users,phone,'.$user->id.'|max:13', //harus diisi dan tidak boleh sama dengan user yang lain
+            'date_of_birth' => 'nullable|before:today', //harus diisi dan tanggal tidak boleh lebih dari hari ini
+            'sex' => 'required', //harus diisi
+        ]);
+
+        if($request->date_of_birth == null){
+            $data['date_of_birth'] = $user->date_of_birth;
+        }else{
+            $data['date_of_birth'] = $request->date_of_birth;
+        }
+
+        $user = $user->update(array_merge($request->only(['name', 'email', 'phone', 'sex']), $data)); //simpan perubahan ke db
+
+        return redirect()->back()->with('success', 'perubahan data '.$request->name.' berhasil.'); //tampilkan view yang sebelumnya
     }
 
     /**
@@ -102,6 +122,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->update(['is_active' => false]); //user dipilih diubah jadi tidak aktif
+        return redirect()->back()->with('success', $user->name.' berhasil di non-aktifkan.'); //tampilkan view yang sebelumnya
     }
 }

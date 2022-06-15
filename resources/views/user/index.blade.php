@@ -31,8 +31,12 @@
                   <td>{{ $user->birth }}</td>
                   <td>{{ $user->join }}</td>
                   <td>
-                    <button class="btn btn-warning btn-"><i class="fa fa-edit"></i></button>
-                    <button class="btn btn-danger btn-"><i class="fa fa-circle-xmark"></i></button>
+                    <a href="{{ route('users.show', ['user'=>$user->id]) }}" class="btn btn-warning btn-"><i class="fa fa-edit"></i></a>
+                    <a href="#" onclick="unactive()" class="btn btn-danger btn-"><i class="fa fa-circle-xmark"></i></a>
+                    <form id="unactive-form" action="{{ route('users.destroy', ['user'=>$user->id]) }}" method="POST" class="d-none">
+                      @method('delete')
+                      @csrf
+                    </form>
                   </td>
                 </tr>
               @endforeach
@@ -46,4 +50,19 @@
     </div>
   </div>
 </section>
+<script>
+  function unactive(){
+      Swal.fire({
+          title: 'Yakin non-aktifkan ?',
+          showCancelButton: true,
+          confirmButtonColor: 'red',
+          confirmButtonText: 'Ya',
+          dangerMode: true,
+      }).then( function(result){
+          if(result.isConfirmed){
+              event.preventDefault();document.getElementById('unactive-form').submit();
+          }
+      })
+  }
+</script>
 @endsection

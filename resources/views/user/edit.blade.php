@@ -6,7 +6,7 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Isi data diri anggota</h5>
+          <h5 class="card-title">Detail data diri anggota</h5>
 
           <!-- Floating Labels Form -->
           <form class="row g-3" method="POST" action="{{ route('users.store') }}">
@@ -23,23 +23,6 @@
                 <label for="floatingName">Nama Lengkap</label>
               </div>
             </div>
-            <fieldset class="row mb-3">
-              <legend class="col-form-label col-sm-2 pt-0">Jenis Kelamin</legend>
-              <div class="col-sm-10">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="sex" id="gridRadios1" value="male" checked>
-                  <label class="form-check-label" for="gridRadios1">
-                    Laki - Laki
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="female">
-                  <label class="form-check-label" for="gridRadios2">
-                    Perempuan
-                  </label>
-                </div>
-              </div>
-            </fieldset>
             <div class="col-md-6">
               <div class="form-floating">
                 <input name="email" value="{{ old('email') }}" type="email" class="form-control @error('email') is-invalid @enderror" id="floatingEmail" placeholder="Email">

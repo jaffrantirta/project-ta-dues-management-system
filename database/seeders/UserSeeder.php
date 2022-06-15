@@ -30,6 +30,7 @@ class UserSeeder extends Seeder
             'phone' => '1234567890',
             'id_number' => '1234567890',
             'is_active' => true,
+            'sex' => 'male',
             'date_of_birth' => now(),
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),

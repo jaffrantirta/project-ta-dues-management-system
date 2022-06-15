@@ -25,6 +25,8 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'sex',
+        'is_active',
         'id_number',
         'date_of_birth',
     ];
@@ -32,6 +34,8 @@ class User extends Authenticatable
     protected $appends = [
         'join',
         'birth',
+        'gender',
+        'profile_picture',
     ];
 
     /**
@@ -61,6 +65,19 @@ class User extends Authenticatable
     public function getBirthAttribute()
     {
         return Carbon::create($this->date_of_birth)->isoFormat('D MMM Y');
+    }
+
+    public function getGenderAttribute()
+    {
+        if($this->sex == 'male'){
+            return 'Laki -Laki';
+        }
+        return 'Perempuan';
+    }
+
+    public function getProfilePictureAttribute()
+    {
+        return 'assets/admin/img/'.$this->sex.'.png';
     }
 
     public function setNameAttribute($value)
