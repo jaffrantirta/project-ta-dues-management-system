@@ -109,7 +109,7 @@ class UserController extends Controller
             $data['date_of_birth'] = $request->date_of_birth;
         }
 
-        $user = $user->update(array_merge($request->only(['name', 'email', 'phone', 'sex']), $data)); //simpan perubahan ke db
+        $user->update(array_merge($request->only(['name', 'email', 'phone', 'sex']), $data)); //simpan perubahan ke db
 
         return redirect()->back()->with('success', 'perubahan data '.$request->name.' berhasil.'); //tampilkan view yang sebelumnya
     }
