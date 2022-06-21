@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\UserEvent;
+use App\Models\UserPenalty;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -22,7 +24,7 @@ class EventController extends Controller
     public function index()
     {
         $data['title'] = $this->title;
-        $data['events'] = Event::where('date_time', '>=', Carbon::now())->get(); // panggil event yang tanggal nya belum lewat dari hari ini
+        $data['events'] = Event::all(); // panggil event yang tanggal nya belum lewat dari hari ini
         return view('event.index')->with($data); // tampilkan view index event
     }
 
@@ -94,7 +96,7 @@ class EventController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:50', //harus diisi dan max 50 karakter
             'description' => 'required', //harus diisi
-            'date_time' => 'required|after:today', //harus diisi dan harus setelah hari ini
+            'date_time' => 'nullable|after:today', //harus diisi dan harus setelah hari ini
         ]);
 
         if($request->date_time == null){
@@ -116,7 +118,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        if( UserEvent::whereBelongsTo($event)->exists() || UserPenalty::whereBelongTo($event)->exists() ){
+        if( UserEvent::whereBelongsTo($event)->exists() || UserPenalty::whereBelongsTo($event)->exists() ){
             return redirect()->back()->withErrors(['Acara tidak dapat dihapus']);
         }
         $event->delete();

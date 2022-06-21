@@ -14,21 +14,23 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nama</th>
-                <th scope="col">Tanggal Acara</th>
+                <th scope="col">Status</th>
+                <th scope="col">Hadir pada pukul</th>
                 <th scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              @foreach ($events as $key => $event)
+              @foreach ($users as $key => $user)
                 <tr>
                   <th scope="row">{{ $key + 1 }}</th>
-                  <td>{{ $event->name }}</td>
-                  <td>{{ $event->event_date }}</td>
+                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->event_date }}</td>
+                  <td>{{ $user->event_date }}</td>
                   <td>
-                    <a href="{{ route('events.show', ['event'=>$event->id]) }}" class="btn btn-warning btn-"><i class="fa fa-edit"></i></a>
-                    <a href="{{ route('events.users.index', ['event'=>$event->id]) }}" class="btn btn-primary btn-"><i class="fa fa-edit"></i></a>
+                    <a href="{{ route('events.show', ['event'=>$user->id]) }}" class="btn btn-warning btn-"><i class="fa fa-edit"></i></a>
+                    <a href="{{ route('events.users.index', ['event'=>$user->id]) }}" class="btn btn-primary btn-"><i class="fa fa-edit"></i></a>
                     <a href="#" onclick="unactive()" class="btn btn-danger btn-"><i class="fa fa-circle-xmark"></i></a>
-                    <form id="unactive-form" action="{{ route('events.destroy', ['event'=>$event->id]) }}" method="POST" class="d-none">
+                    <form id="unactive-form" action="{{ route('events.destroy', ['event'=>$user->id]) }}" method="POST" class="d-none">
                       @method('delete')
                       @csrf
                     </form>

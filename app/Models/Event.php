@@ -17,6 +17,7 @@ class Event extends Model
 
     protected $appends = [
         'event_date',
+        'is_passed',
     ];
 
     public function getEventDateAttribute()
@@ -24,7 +25,15 @@ class Event extends Model
         if($this->date_time <= Carbon::now()->addDays(7)){
             return Carbon::create($this->date_time)->locale('id')->diffForHumans();
         }else{
-            return Carbon::create($this->date_time)->locale('id')->isoFormat('ddd, D MMM');
+            return Carbon::create($this->date_time)->locale('id')->isoFormat('ddd, D MMM Y - h:mm a');
         }
+    }
+
+    public function getIsPassedAttribute()
+    {
+        if(Carbon::create($this->date_time)->isoFormat('Y-M-d') <= Carbon::today()->isoFormat('Y-M-d')){
+            return true;
+        }
+        return false;
     }
 }

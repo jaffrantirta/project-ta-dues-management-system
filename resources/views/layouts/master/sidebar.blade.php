@@ -24,12 +24,12 @@
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link {{ (request()->is('events*')) ? '' : 'collapsed' }}" data-bs-target="#event-nav" data-bs-toggle="collapse" href="#">
           <i class="fa fa-calendar-day"></i><span>Acara</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="event-nav" class="nav-content collapse {{ (request()->is('events*')) ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="forms-elements.html">
+            <a href="{{ route('events.index') }}" class="{{ (request()->is('events*')) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>List Acara</span>
             </a>
           </li>

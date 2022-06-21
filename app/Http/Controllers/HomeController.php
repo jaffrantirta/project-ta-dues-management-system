@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard.index');
+        $data['events'] = Event::whereDate('date_time', '>=', date('Y-m-d'))->limit(2)->orderBy('date_time', 'asc')->get();
+        return view('dashboard.index', $data);
     }
 }

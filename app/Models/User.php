@@ -84,4 +84,9 @@ class User extends Authenticatable
     {
         $this->attributes['name'] = ucwords($value);
     }
+
+    public function user_event()
+    {
+        return $this->hasMany(UserEvent::class)->with('event');
+    }
 }
