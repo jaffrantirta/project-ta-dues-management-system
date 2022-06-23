@@ -18,6 +18,7 @@ class CreateUserPenaltiesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('event_id')->unsigned();
             $table->double('fee');
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');

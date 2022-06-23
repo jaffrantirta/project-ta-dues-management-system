@@ -37,12 +37,12 @@
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link {{ (request()->is('settings/penalty/fee*')) ? '' : 'collapsed' }}" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="fa fa-gears"></i><span>Pengaturan</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="tables-nav" class="nav-content collapse {{ (request()->is('settings/penalty/fee*')) ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.html">
+            <a href="{{ route('settings.penalty.fee') }}" class="{{ (request()->is('settings/penalty/fee*')) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Biaya Denda</span>
             </a>
           </li>

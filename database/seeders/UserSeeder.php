@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Setting;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -21,8 +22,9 @@ class UserSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $role1 = Role::create(['name' => 'Admin']);
-        $role2 = Role::create(['name' => 'Member']);
+        $super_admin_role = Role::create(['name' => 'Super Admin']);
+        $admin_role = Role::create(['name' => 'Admin']);
+        $member_role = Role::create(['name' => 'Member']);
 
         $admin = User::create([
             'name' => 'Super Admin',
@@ -36,17 +38,22 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin'),
             'remember_token' => Str::random(10),
         ]);
-        $admin->assignRole($role1);
+        $admin->assignRole($super_admin_role);
 
-        $functionaries = User::factory()->count(10)->create();
+        $functionaries = User::factory()->count(2)->create();
         foreach($functionaries as $functionary){
-            $functionary->assignRole($role1);
+            $functionary->assignRole($admin_role);
         }
 
-        $members = User::factory()->count(300)->create();
+        $members = User::factory()->count(3)->create();
         foreach($members as $member){
-            $member->assignRole($role2);
+            $member->assignRole($member_role);
         }
+
+        Setting::create([
+            'key'=>'penalty_fee',
+            'content'=>5000
+        ]);
 
     }
 }

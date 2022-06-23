@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
 use App\Models\UserEvent;
 use App\Models\UserPenalty;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use DB;
 
 class EventController extends Controller
 {
@@ -123,5 +126,26 @@ class EventController extends Controller
         }
         $event->delete();
         return redirect()->back()->with('success', 'Acara berhasil dihapus.'); //tampilkan view yang sebelumnya
+    }
+    public function done(Event $event)
+    {
+        // return User::leftJoin('user_events', 'user_events.user_id', '=', 'users.id')->whereNull('user_events.user_id')->where('user_events.event_id', $event->id)->role(['Admin', 'Member'])->toSql();
+        $fee = Setting::where('key', 'penalty_fee')->first()->content;
+        $users = User::role(['Admin', 'Member'])->get();
+        DB::beginTransaction();
+        try {
+            foreach ($users as $key => $user) {
+                if(!UserEvent::where('user_id', $user->id)->where('event_id', $event->id)->exists()){
+                    UserPenalty::create(['user_id'=>$user->id, 'event_id'=>$event->id, 'fee'=>$fee]);
+                }
+            }
+            $event->update(['is_done'=>true]); //ubah acara menjadi "selesai"
+            DB::commit();
+            return redirect()->back()->with('success', 'Acara '.$event->name.' ditandai selesai.'); //tampilkan view yang sebelumnya
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            // throw $th;
+            return redirect()->back()->withErrors(['Oops! ada yang tidak beres.']);
+        }
     }
 }

@@ -13,6 +13,7 @@ class Event extends Model
         'name',
         'description',
         'date_time',
+        'is_done',
     ];
 
     protected $appends = [
@@ -32,8 +33,8 @@ class Event extends Model
     public function getIsPassedAttribute()
     {
         if(Carbon::create($this->date_time)->isoFormat('Y-M-d') <= Carbon::today()->isoFormat('Y-M-d')){
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

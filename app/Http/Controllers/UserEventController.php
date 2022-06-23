@@ -6,7 +6,6 @@ use App\Models\UserEvent;
 use App\Models\User;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use DB;
 
 class UserEventController extends Controller
 {
@@ -23,11 +22,10 @@ class UserEventController extends Controller
      */
     public function index(Event $event)
     {
-        DB::enableQueryLog();
         $data['title'] = $this->title;
-        $data['users'] = User::where('is_active', true)->with(['user_event'=> fn($q) => $q->where('event_id',$event->id)])->get();
-        // return DB::getQueryLog();
-        return $data;
+        $data['event'] = $event;
+        $data['users'] = User::role(['Admin', 'Member'])->where('is_active', true)->with(['user_event'=> fn($query) => $query->where('event_id',$event->id)])->get();
+        // return $data;
         return view('user_event.index', $data);
 
     }
@@ -48,9 +46,9 @@ class UserEventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Event $event, User $user)
+    public function store(Request $request, Event $event)
     {
-        UserEvent::create(['user_id' => $user, 'event_id'=>$event]);
+        UserEvent::create(['user_id' => $request->user_id, 'event_id'=>$event->id]);
         return redirect()->back();
     }
 

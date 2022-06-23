@@ -7,79 +7,33 @@ use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $title;
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
+        $this->title = 'Biaya denda';
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function penalty_fee()
     {
-        //
+        $data['title'] = $this->title;
+        $data['penalty_fee'] = Setting::where('key', 'penalty_fee')->first()->content;
+        return view('penalty_fee.index')->with($data); // tampilkan view index user
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function penalty_fee_store(Request $request)
     {
-        //
-    }
+        // data di cek apakah sudah sesuai kriteria
+        $validated = $request->validate([
+            'penalty_fee' => 'required|numeric', //harus diisi dan harus angka
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Setting $setting)
-    {
-        //
+        Setting::updateOrCreate(
+            [
+                'key'=>'penalty_fee',
+            ],
+            [
+                'content'=>$request->penalty_fee,
+            ]
+        );
+        return redirect()->back()->with('success', 'Biaya berhasil di set.');
     }
 }

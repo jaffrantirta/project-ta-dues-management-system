@@ -32,8 +32,8 @@
                   <td>{{ $user->join }}</td>
                   <td>
                     <a href="{{ route('users.show', ['user'=>$user->id]) }}" class="btn btn-warning btn-"><i class="fa fa-edit"></i></a>
-                    <a href="#" onclick="unactive()" class="btn btn-danger btn-"><i class="fa fa-circle-xmark"></i></a>
-                    <form id="unactive-form" action="{{ route('users.destroy', ['user'=>$user->id]) }}" method="POST" class="d-none">
+                    <a href="#" onclick="unactive('{{ $user->name }}', '{{ $user->id }}')" class="btn btn-danger btn-"><i class="fa fa-circle-xmark"></i></a>
+                    <form id="unactive-form-{{ $user->id }}" action="{{ route('users.destroy', ['user'=>$user->id]) }}" method="POST" class="d-none">
                       @method('delete')
                       @csrf
                     </form>
@@ -51,16 +51,17 @@
   </div>
 </section>
 <script>
-  function unactive(){
+  function unactive(name, id){
+    var vId = id
       Swal.fire({
-          title: 'Yakin non-aktifkan ?',
+          title: 'Yakin non-aktifkan '+name+' ?',
           showCancelButton: true,
           confirmButtonColor: 'red',
           confirmButtonText: 'Ya',
           dangerMode: true,
       }).then( function(result){
           if(result.isConfirmed){
-              event.preventDefault();document.getElementById('unactive-form').submit();
+              event.preventDefault();document.getElementById('unactive-form-'+vId).submit();
           }
       })
   }

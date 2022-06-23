@@ -1,13 +1,20 @@
 @extends('layouts.admin')
 @section('content')
-<a href="{{ route('events.create') }}" class="btn btn-primary my-3"><i class="fa fa-plus"></i> Tambah {{ $title }}</a>
+@if ($event->is_done)
+  <strong style="color: red">Acara sudah selesai</strong>
+@else
+  <a onclick="done('{{ $event->name }}', '{{ $event->id }}')" class="btn btn-warning my-3">Tutup acara ini dan cetak denda</a>
+@endif
+<form id="done-form" action="{{ route('events.done', ['event'=>$event->id]) }}" method="POST" class="d-none">
+  @csrf
+</form>
 <section class="section">
   <div class="row">
     <div class="col-lg-12">
 
       <div class="card table-responsive">
         <div class="card-body">
-          <h5 class="card-title">List {{ $title }}</h5>
+          <h5 class="card-title">List {{ $title }} "{{ $event->name }}"</h5>
           <!-- Table with stripped rows -->
           <table class="table datatable">
             <thead>
@@ -16,7 +23,6 @@
                 <th scope="col">Nama</th>
                 <th scope="col">Status</th>
                 <th scope="col">Hadir pada pukul</th>
-                <th scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -24,16 +30,31 @@
                 <tr>
                   <th scope="row">{{ $key + 1 }}</th>
                   <td>{{ $user->name }}</td>
-                  <td>{{ $user->event_date }}</td>
-                  <td>{{ $user->event_date }}</td>
                   <td>
-                    <a href="{{ route('events.show', ['event'=>$user->id]) }}" class="btn btn-warning btn-"><i class="fa fa-edit"></i></a>
-                    <a href="{{ route('events.users.index', ['event'=>$user->id]) }}" class="btn btn-primary btn-"><i class="fa fa-edit"></i></a>
-                    <a href="#" onclick="unactive()" class="btn btn-danger btn-"><i class="fa fa-circle-xmark"></i></a>
-                    <form id="unactive-form" action="{{ route('events.destroy', ['event'=>$user->id]) }}" method="POST" class="d-none">
-                      @method('delete')
-                      @csrf
-                    </form>
+                    @if (count($user->user_event) == 0)
+                      @if ($event->is_done)
+                        <small style="color: red">Tidak hadir</small>  
+                      @else
+                        <small style="color: yellow">Belum hadir</small>
+                      @endif
+                    @else
+                        <small style="color: green">Hadir</small>
+                    @endif
+                  </td>
+                  <td>
+                    @if (count($user->user_event) == 0)
+                      @if ($event->is_done)
+                        <small style="color: red">-</small>  
+                      @else
+                        <a onclick="attend('{{ $user->name }}', '{{ $user->id }}')" class="btn btn-primary btn-"><i class="fa fa-check"></i> Tandai hadir</a>
+                        <form id="attend-form-{{ $user->id }}" action="{{ route('events.users.store', ['event'=>$event->id]) }}" method="POST" class="d-none">
+                          @csrf
+                          <input type="text" name="user_id" value="{{ $user->id }}">
+                        </form>
+                      @endif
+                    @else
+                        <small>{{ $user->user_event[0]->attend_time }}</small>
+                    @endif
                   </td>
                 </tr>
               @endforeach
@@ -48,16 +69,29 @@
   </div>
 </section>
 <script>
-  function unactive(){
+  function attend(name, id){
+    var vId = id;
       Swal.fire({
-          title: 'Yakin non-aktifkan ?',
+          title: name+' hadir ?',
           showCancelButton: true,
-          confirmButtonColor: 'red',
           confirmButtonText: 'Ya',
           dangerMode: true,
       }).then( function(result){
           if(result.isConfirmed){
-              event.preventDefault();document.getElementById('unactive-form').submit();
+              event.preventDefault();document.getElementById('attend-form-'+vId).submit();
+          }
+      })
+  }
+  function done(name, id){
+    var vId = id;
+      Swal.fire({
+          title: name+' sudah selesai ?',
+          showCancelButton: true,
+          confirmButtonText: 'Ya',
+          dangerMode: true,
+      }).then( function(result){
+          if(result.isConfirmed){
+              event.preventDefault();document.getElementById('done-form').submit();
           }
       })
   }

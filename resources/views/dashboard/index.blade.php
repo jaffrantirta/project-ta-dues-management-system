@@ -27,10 +27,10 @@
                   </div>
                 </div>
 
-                @if ($event->is_passed)
-                <button class="m-3 btn btn-primary">
+                @if (!$event->is_passed)
+                <a href="{{ route('events.users.index', ['event'=>$event->id]) }}" class="m-3 btn btn-primary">
                   Mulai acara
-                </button>
+                </a>
                 @endif
               </div>
             </div><!-- End Sales Card -->
