@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Hash;
+use App\Exports\UsersActiveExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -124,5 +126,10 @@ class UserController extends Controller
     {
         $user->update(['is_active' => false]); //user dipilih diubah jadi tidak aktif
         return redirect()->back()->with('success', $user->name.' berhasil di non-aktifkan.'); //tampilkan view yang sebelumnya
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersActiveExport, 'anggota-aktif.xlsx');
     }
 }

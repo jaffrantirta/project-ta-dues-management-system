@@ -23,7 +23,10 @@ class UserSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $super_admin_role = Role::create(['name' => 'Super Admin']);
-        $admin_role = Role::create(['name' => 'Admin']);
+        $leader_role = Role::create(['name' => 'Ketua']);
+        $co_leader_role = Role::create(['name' => 'Wakil Ketua']);
+        $sekre_role = Role::create(['name' => 'Sekretaris']);
+        $bendahara_role = Role::create(['name' => 'Bendahara']);
         $member_role = Role::create(['name' => 'Member']);
 
         $admin = User::create([
@@ -40,9 +43,24 @@ class UserSeeder extends Seeder
         ]);
         $admin->assignRole($super_admin_role);
 
-        $functionaries = User::factory()->count(2)->create();
-        foreach($functionaries as $functionary){
-            $functionary->assignRole($admin_role);
+        $leader = User::factory()->count(1)->create();
+        foreach($leader as $functionary){
+            $functionary->assignRole($leader_role);
+        }
+
+        $co_leader = User::factory()->count(1)->create();
+        foreach($co_leader as $functionary){
+            $functionary->assignRole($co_leader_role);
+        }
+
+        $sekre = User::factory()->count(1)->create();
+        foreach($sekre as $functionary){
+            $functionary->assignRole($sekre_role);
+        }
+
+        $bendahara = User::factory()->count(1)->create();
+        foreach($bendahara as $functionary){
+            $functionary->assignRole($bendahara_role);
         }
 
         $members = User::factory()->count(3)->create();
