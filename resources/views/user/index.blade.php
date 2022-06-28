@@ -18,6 +18,7 @@
                 <th scope="col">Nomor Telepon</th>
                 <th scope="col">Tanggal Lahir</th>
                 <th scope="col">Bergabung</th>
+                <th scope="col">Umur</th>
                 <th scope="col">Aksi</th>
               </tr>
             </thead>
@@ -30,6 +31,7 @@
                   <td>{{ $user->phone }}</td>
                   <td>{{ $user->birth }}</td>
                   <td>{{ $user->join }}</td>
+                  <td>{{ $user->age }}</td>
                   <td>
                     <a href="{{ route('users.show', ['user'=>$user->id]) }}" class="btn btn-warning btn-"><i class="fa fa-edit"></i></a>
                     <a href="#" onclick="unactive('{{ $user->name }}', '{{ $user->id }}')" class="btn btn-danger btn-"><i class="fa fa-circle-xmark"></i></a>

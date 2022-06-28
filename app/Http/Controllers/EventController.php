@@ -131,7 +131,7 @@ class EventController extends Controller
     {
         // return User::leftJoin('user_events', 'user_events.user_id', '=', 'users.id')->whereNull('user_events.user_id')->where('user_events.event_id', $event->id)->role(['Admin', 'Member'])->toSql();
         $fee = Setting::where('key', 'penalty_fee')->first()->content;
-        $users = User::role(['Admin', 'Member'])->get();
+        $users = User::role(['Ketua', 'Wakil Ketua', 'Sekretaris', 'Bendahara', 'Member'])->get();
         DB::beginTransaction();
         try {
             foreach ($users as $key => $user) {

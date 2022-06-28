@@ -16,10 +16,18 @@ class UserPenalty extends Model
     ];
     protected $appends = [
         'fee_text',
+        'paid_text',
     ];
     public function getFeeTextAttribute()
     {
         return 'Rp.'.number_format($this->fee);
+    }
+    public function getPaidTextAttribute()
+    {
+        if($this->is_paid){
+            return 'Sudah bayar';
+        }
+        return 'Belum bayar';
     }
     public function event()
     {

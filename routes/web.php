@@ -41,5 +41,7 @@ Route::middleware(['role:Super Admin'])->group(function () {
     Route::post('/settings/penalty/fee/store', [SettingController::class, 'penalty_fee_store'])->name('settings.penalty.fee.store');
 
     //export excel
-    Route::get('export/users/active', [UserController::class, 'export']);
+    Route::get('export/users/active', [UserController::class, 'export_active'])->name('export.users.active');
+    Route::get('export/users/unactive', [UserController::class, 'export_unactive'])->name('export.users.unactive');
+    Route::get('export/users/penalty', [UserPenaltyController::class, 'export'])->name('export.users.penalty');
 });

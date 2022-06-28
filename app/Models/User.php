@@ -35,7 +35,8 @@ class User extends Authenticatable
         'join',
         'birth',
         'gender',
-        'profile_picture',
+        'age',
+        'status'
     ];
 
     /**
@@ -88,5 +89,21 @@ class User extends Authenticatable
     public function user_event()
     {
         return $this->hasMany(UserEvent::class)->with('event');
+    }
+
+    public function getAgeAttribute()
+    {
+        $this_year = date('Y');
+        $year_of_birth = Carbon::create($this->date_of_birth)->isoFormat('Y');
+        $age = $this_year - $year_of_birth;
+        return $age;
+    }
+
+    public function getStatusAttribute()
+    {
+        if($this->is_active){
+            return 'Anggota Aktif';
+        }
+        return 'Anggota Tidak Aktif';
     }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Hash;
 use App\Exports\UsersActiveExport;
+use App\Exports\UsersUnactiveExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -128,8 +129,13 @@ class UserController extends Controller
         return redirect()->back()->with('success', $user->name.' berhasil di non-aktifkan.'); //tampilkan view yang sebelumnya
     }
 
-    public function export()
+    public function export_active()
     {
         return Excel::download(new UsersActiveExport, 'anggota-aktif.xlsx');
+    }
+
+    public function export_unactive()
+    {
+        return Excel::download(new UsersUnactiveExport, 'anggota-tidak-aktif.xlsx');
     }
 }

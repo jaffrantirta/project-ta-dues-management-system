@@ -24,7 +24,7 @@ class UserEventController extends Controller
     {
         $data['title'] = $this->title;
         $data['event'] = $event;
-        $data['users'] = User::role(['Admin', 'Member'])->where('is_active', true)->with(['user_event'=> fn($query) => $query->where('event_id',$event->id)])->get();
+        $data['users'] = User::role(['Ketua', 'Wakil Ketua', 'Sekretaris', 'Bendahara', 'Member'])->where('is_active', true)->with(['user_event'=> fn($query) => $query->where('event_id',$event->id)])->get();
         // return $data;
         return view('user_event.index', $data);
 

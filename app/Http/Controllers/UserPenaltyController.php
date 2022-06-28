@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\UserPenalty;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Exports\UserPenaltyExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserPenaltyController extends Controller
 {
@@ -101,5 +103,10 @@ class UserPenaltyController extends Controller
     {
         $userPenalty->update(['is_paid'=>true]);
         return redirect()->back()->with('success', 'Berhasil tandai sebagai bayar');
+    }
+
+    public function export()
+    {
+        return Excel::download(new UserPenaltyExport, 'anggota-denda.xlsx');
     }
 }

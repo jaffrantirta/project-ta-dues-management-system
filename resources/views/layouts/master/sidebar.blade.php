@@ -56,17 +56,17 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="charts-chartjs.html">
+            <a href="{{ route('export.users.active') }}">
               <i class="bi bi-circle"></i><span>Laporan Anggota Aktif</span>
             </a>
           </li>
           <li>
-            <a href="charts-apexcharts.html">
+            <a href="{{ route('export.users.penalty') }}">
               <i class="bi bi-circle"></i><span>Laporan Denda</span>
             </a>
           </li>
           <li>
-            <a href="charts-echarts.html">
+            <a href="{{ route('export.users.unactive') }}">
               <i class="bi bi-circle"></i><span>Arsip Anggota Tidak Aktif</span>
             </a>
           </li>
