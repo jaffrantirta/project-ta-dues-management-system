@@ -8,6 +8,7 @@ use App\Http\Controllers\UserPenaltyController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ManagementController;
+use App\Http\Controllers\LandingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ use App\Http\Controllers\ManagementController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/users/active', [LandingController::class, 'users'])->name('landing.users.active');
 
 Auth::routes();
 
