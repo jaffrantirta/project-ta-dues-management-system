@@ -29,6 +29,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item"><a href="{{ route('landing') }}" class="nav-link me-lg-3">Beranda</a></li>
                         <li class="nav-item"><a href="{{ route('landing') }}#features" class="nav-link me-lg-3">Acara</a></li>
                         <li class="nav-item"><a href="{{ route('landing') }}#download" class="nav-link me-lg-3">List Pemuda-Pemudi</a></li>
                     </ul>

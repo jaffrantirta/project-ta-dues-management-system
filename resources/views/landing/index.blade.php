@@ -6,12 +6,12 @@
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6">
                         <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                            <h1 class="display-1 lh-1 mb-3">{{ $title }}</h1>
-                            <p class="lead fw-normal text-muted mb-5">{{ $subtitle }}</p>
+                            <h1 class="display-1 lh-1 mb-3">{{ $title1 }}</h1>
+                            <p class="lead fw-normal text-muted mb-5">{{ $subtitle1 }}</p>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <img src="{{ $picture }}" class="img-fluid" />
+                        <img src="{{ $picture1 }}" class="img-fluid" />
                     </div>
                 </div>
             </div>
@@ -33,16 +33,21 @@
                     <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
                         <div class="container-fluid px-5">
                             <div class="row gx-5">
-                                @foreach ($events as $event)
-                                    <div class="col-md-6 mb-5">
-                                        <!-- Feature item-->
-                                        <div class="text-center">
-                                            <i class="fa fa-calendar-check icon-feature text-gradient d-block mb-3"></i>
-                                            <h3 class="font-alt">{{ $event->name }}</h3>
-                                            <p class="text-muted mb-0">{{ $event->event_date }}</p>
+                                @if ($events->count() > 0)
+                                    @foreach ($events as $event)
+                                        <div class="col-md-6 mb-5">
+                                            <!-- Feature item-->
+                                            <div class="text-center">
+                                                <i class="fa fa-calendar-check icon-feature text-gradient d-block mb-3"></i>
+                                                <h3 class="font-alt">{{ $event->name }}</h3>
+                                                <p class="text-muted mb-0">{{ $event->event_date }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                @else
+                                    <p>Tidak Ada Acara </p>
+                                @endif
+                                
                             </div>
                         </div>
                     </div>

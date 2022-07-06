@@ -27,12 +27,12 @@
             <hr class="dropdown-divider">
           </li>
 
-          <li>
+          {{-- <li>
             <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
               <i class="fa fa-user"></i>
               <span>Profil</span>
             </a>
-          </li>
+          </li> --}}
           <li>
             <hr class="dropdown-divider">
           </li>

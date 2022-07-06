@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Setting;
 
 class LandingController extends Controller
 {
     public function index()
     {
-        $data['title'] = 'Selamat Datang di '.env('APP_NAME');
-        $data['subtitle'] = 'Website resmi '.env('APP_NAME');
-        $data['picture'] = 'https://www.w3schools.com/howto/img_avatar.png';
-        $data['quotes'] = 'Life, religion, and art all converge in Bali. They have no word in their language for artist or art. Everyone is an artist';
+        $data['title1'] = Setting::where('key', 'title1')->first()->content;
+        $data['subtitle1'] = Setting::where('key', 'subtitle1')->first()->content;
+        $data['quotes'] = Setting::where('key', 'quotes')->first()->content;
         $data['events'] = Event::whereDate('date_time', '>=', date('Y-m-d'))->limit(4)->orderBy('date_time', 'asc')->get();
-        $data['title2'] = 'STT bla bla bla';
-        $data['subtitle2'] = 'STT bla bla bla merupakan bla bla bla';
-        $data['picture2'] = 'https://www.w3schools.com/howto/img_avatar.png';
+        $data['title2'] = Setting::where('key', 'title2')->first()->content;
+        $data['subtitle2'] = Setting::where('key', 'subtitle2')->first()->content;
+        $data['picture1'] = Setting::where('key', 'picture1')->first()->content;
+        $data['picture2'] = Setting::where('key', 'picture2')->first()->content;
         // return $data;
         return view('landing.index', $data);
     }

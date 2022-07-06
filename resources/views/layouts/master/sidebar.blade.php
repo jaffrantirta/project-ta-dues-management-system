@@ -47,6 +47,16 @@
               <i class="bi bi-circle"></i><span>Biaya Denda</span>
             </a>
           </li>
+          <li>
+          <a href="{{ route('general.index') }}" class="{{ (request()->is('settings/general*')) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Tampilan Halaman Depan</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('settings.picture') }}" class="{{ (request()->is('settings/picture*')) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Tampilan Gambar Halaman Depan</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Tables Nav -->
 
