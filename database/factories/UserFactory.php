@@ -14,12 +14,14 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $gender = $this->faker->randomElement(['male', 'female']);
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->name($gender),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->unique()->numerify('08##########'),
             'id_number' => $this->faker->unique()->numerify('510#########000#'),
             'is_active' => true,
+            'sex' => $gender,
             'date_of_birth' => $this->faker->dateTimeBetween('1990-01-01', '2012-12-31')->format('Y-m-d'),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

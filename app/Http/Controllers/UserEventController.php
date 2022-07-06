@@ -3,18 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserEvent;
+use App\Models\User;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class UserEventController extends Controller
 {
+    private $title;
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->title = 'Peserta Acara';
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Event $event)
     {
-        //
+        $data['title'] = $this->title;
+        $data['event'] = $event;
+        $data['users'] = User::role(['Ketua', 'Wakil Ketua', 'Sekretaris', 'Bendahara', 'Member'])->where('is_active', true)->with(['user_event'=> fn($query) => $query->where('event_id',$event->id)])->get();
+        // return $data;
+        return view('user_event.index', $data);
+
     }
 
     /**
@@ -33,9 +46,10 @@ class UserEventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Event $event)
     {
-        //
+        UserEvent::create(['user_id' => $request->user_id, 'event_id'=>$event->id]);
+        return redirect()->back();
     }
 
     /**
