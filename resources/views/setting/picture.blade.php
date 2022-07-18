@@ -16,6 +16,10 @@
         <img src="{{ asset($picture2) }}" class="img-fluid p-5" alt="">
         <input type="file" name="picture2" class="form-control mb-4">
 
+        <label>Logo</label>
+        <img src="{{ asset('storage/logo/logo.png') }}" class="img-fluid p-5" alt="">
+        <input type="file" name="logo" class="form-control mb-4">
+
         <input type="submit" value="Simpan" class="btn btn-primary">
       </form>
 

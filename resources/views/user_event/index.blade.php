@@ -35,7 +35,7 @@
                       @if ($event->is_done)
                         <small style="color: red">Tidak hadir</small>  
                       @else
-                        <small style="color: yellow">Belum hadir</small>
+                        <small style="color: red">Belum hadir</small>
                       @endif
                     @else
                         <small style="color: green">Hadir</small>

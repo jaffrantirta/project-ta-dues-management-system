@@ -52,11 +52,19 @@
                 <label for="floatingPhone">Telepon</label>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
               <div class="col-md-12">
                 <div class="form-floating">
                   <input name="date_of_birth" type="date" class="form-control @error('date_of_birth') is-invalid @enderror" id="floatingDate" placeholder="Tanggal Lahir">
                   <label for="floatingDate">Tanggal Lahir</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <input name="join_year" type="number" class="form-control @error('join_year') is-invalid @enderror" id="floatingJoinYear" placeholder="Masukan tahun bergabung, jika dikosongkan akan berisi tahun sekarang">
+                  <label for="floatingJoinYear">Tahun bergabung (jika dikosongkan akan diisi tahun sekarang)</label>
                 </div>
               </div>
             </div>

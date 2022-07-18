@@ -10,7 +10,7 @@ class UsersActiveExport implements FromView
     public function view(): View
     {
         return view('exports.user', [
-            'users' => User::where('is_active', true)->role('Member')->get()
+            'users' => User::where('is_active', true)->role(['Member', 'Ketua', 'Wakil Ketua', 'Bendahara', 'Sekretaris'])->with('roles')->get()
         ]);
     }
 }

@@ -24,6 +24,7 @@ class SettingController extends Controller
         $data['title'] = $this->title;
         (Setting::where('key', 'picture1')->exists()) ? $data['picture1'] = Setting::where('key', 'picture1')->first()->content : $data['picture1'] = null;
         (Setting::where('key', 'picture2')->exists()) ? $data['picture2'] = Setting::where('key', 'picture2')->first()->content : $data['picture2'] = null;
+        (Setting::where('key', 'logo')->exists()) ? $data['logo'] = Setting::where('key', 'logo')->first()->content : $data['logo'] = null;
         return view('setting.picture')->with($data); // tampilkan view index
     }
     public function penalty_fee_store(Request $request)
@@ -57,12 +58,29 @@ class SettingController extends Controller
     {
         if(isset($request->is_pict)){
             $validated = $request->validate([
-                'picture1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'picture2' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'picture1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'picture2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
-            $picture1 = 'storage/'.$request->file('picture1')->store('landing', 'public');
-            $picture2 = 'storage/'.$request->file('picture2')->store('landing', 'public');
+            if($request->picture1 != null){
+                $picture1 = 'storage/'.$request->file('picture1')->store('landing', 'public');
+            }else{
+                (Setting::where('key', 'picture1')->exists()) ? $picture1 = Setting::where('key', 'picture1')->first()->content : $picture1 = null;
+            }
+
+            if($request->picture2 != null){
+                $picture2 = 'storage/'.$request->file('picture2')->store('landing', 'public');
+            }else{
+                (Setting::where('key', 'picture2')->exists()) ? $picture2 = Setting::where('key', 'picture2')->first()->content : $picture2 = null;
+            }
+
+            if($request->logo != null){
+                $logo = 'storage/'.$request->file('logo')->storeAs('logo', 'logo.png', 'public');
+                // $logo = $request->logo->move(public_path('assets/admin/img/', 'logo.png'));
+            }else{
+                (Setting::where('key', 'logo')->exists()) ? $logo = Setting::where('key', 'logo')->first()->content : $logo = null;
+            }
 
             Setting::updateOrCreate(
                 [
@@ -78,6 +96,14 @@ class SettingController extends Controller
                 ],
                 [
                     'content'=>$picture2,
+                ]
+            );
+            Setting::updateOrCreate(
+                [
+                    'key'=>'logo',
+                ],
+                [
+                    'content'=>$logo,
                 ]
             );
         }else{

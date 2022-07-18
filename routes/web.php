@@ -9,6 +9,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\LandingController;
+use App\Models\Setting;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,10 @@ Route::get('/', function () {
 });
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/users/active', [LandingController::class, 'users'])->name('landing.users.active');
+Route::get('/logo', function () {
+    (Setting::where('key', 'logo')->exists()) ? $logo = Setting::where('key', 'logo')->first()->content : $logo = null;
+    return URL::to('/'.$logo);
+})->name('logo');
 
 Auth::routes();
 

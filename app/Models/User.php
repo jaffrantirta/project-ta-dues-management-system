@@ -29,6 +29,8 @@ class User extends Authenticatable
         'is_active',
         'id_number',
         'date_of_birth',
+        'join_year',
+        'note',
     ];
 
     protected $appends = [
@@ -60,7 +62,7 @@ class User extends Authenticatable
 
     public function getJoinAttribute()
     {
-        return Carbon::create($this->created_at)->isoFormat('Y');
+        return $this->join_year;
     }
 
     public function getBirthAttribute()
