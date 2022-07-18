@@ -38,6 +38,7 @@
                     <form id="unactive-form-{{ $user->id }}" action="{{ route('users.destroy', ['user'=>$user->id]) }}" method="POST" class="d-none">
                       @method('delete')
                       @csrf
+                      <input name="note" type="text" id="reason-unactive-form" placeholder="ketik disini..." class="form-control">
                     </form>
                   </td>
                 </tr>
@@ -55,6 +56,7 @@
 <script>
   function unactive(name, id){
     var vId = id
+    var vName = name
       Swal.fire({
           title: 'Yakin non-aktifkan '+name+' ?',
           showCancelButton: true,
@@ -63,7 +65,24 @@
           dangerMode: true,
       }).then( function(result){
           if(result.isConfirmed){
-              event.preventDefault();document.getElementById('unactive-form-'+vId).submit();
+            reason(vName, vId);
+              // event.preventDefault();document.getElementById('unactive-form-'+vId).submit();
+          }
+      })
+  }
+  function reason(name, id){
+    var vId = id
+      Swal.fire({
+          title: 'Masukan alasan anggota tidak aktif',
+          showCancelButton: true,
+          confirmButtonColor: 'red',
+          confirmButtonText: 'Tidak aktifkan sekarang',
+          dangerMode: true,
+          html: '<input type="text" id="reason-unactive" placeholder="ketik disini..." class="form-control">'
+      }).then( function(result){
+          if(result.isConfirmed){
+            document.getElementById('reason-unactive-form').value = document.getElementById('reason-unactive').value;
+            event.preventDefault();document.getElementById('unactive-form-'+vId).submit();
           }
       })
   }
