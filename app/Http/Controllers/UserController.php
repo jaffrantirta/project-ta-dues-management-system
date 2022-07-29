@@ -51,7 +51,7 @@ class UserController extends Controller
     {
         // data di cek apakah sudah sesuai kriteria
         $validated = $request->validate([
-            'id_number' => 'required|numeric', //harus diisi dan harus angka
+            'id_number' => 'required|numeric|unique:users', //harus diisi dan harus angka
             'name' => 'required|max:255', //harus diisi dan max 255 karakter
             'email' => 'required|unique:users', //harus diisi dan tidak boleh sama dengan user yang lain
             'phone' => 'required|unique:users|max:13', //harus diisi dan tidak boleh sama dengan user yang lain
@@ -66,8 +66,8 @@ class UserController extends Controller
         $age = $this_year - $year_of_birth;
 
         //cek apakan calon anggota cukup umur. jika umur tidak cukup akan ditolak
-        if($age < env('MIN_AGE') && $age > env('MAX_AGE')) {
-            return redirect()->back()->withErrors(['Maaf, Anda tidak dapat mendaftar sebagai anggota karena usia anda belum '.env('MIN_AGE').' atau sudah lebih dari '.env('MAX_AGE')]);
+        if($age < env('MIN_AGE') || $age > env('MAX_AGE')) {
+            return redirect()->back()->withErrors(['Maaf, Anda tidak dapat mendaftar sebagai anggota karena usia anda belum '.env('MIN_AGE').' tahun atau sudah lebih dari '.env('MAX_AGE').' tahun']);
         }
 
         //cek apakah admin memasukan tahun masuk anggota. jika tidak maka tahun masuk anggota akan diisi dengan tahun sekarang
